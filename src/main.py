@@ -15,6 +15,7 @@ class Bot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix='/', help_command=None, intents=discord.Intents.all())
         self.logger = LoggerManager().get_logger('bot')
+        self.tree.on_error = self.on_app_command_error
         self._synced = False
 
     async def setup_hook(self):
@@ -26,15 +27,19 @@ class Bot(commands.Bot):
         self.logger.success('Database connected successfully')
 
     def add_scheduler_task(self, func, day: int, hour: int, minute: int, id: str, args:tuple=()):
-        self.scheduler.add_job(
-            func,
-            CronTrigger(day_of_week=day, hour=hour, minute=minute),
-            id=id,
-            replace_existing=True,
-            misfire_grace_time=3600,
-            coalesce=True,
-            args=args
-        )
+        try:
+            self.scheduler.add_job(
+                func,
+                CronTrigger(day_of_week=day, hour=hour, minute=minute),
+                id=id,
+                replace_existing=True,
+                misfire_grace_time=3600,
+                coalesce=True,
+                args=args
+            )
+            self.logger.success(f'{id} added to scheduler')
+        except Exception as e:
+            self.logger.error(str(e))
 
     async def on_app_command_error(self, interaction, error):
         if isinstance(error, app_commands.CheckFailure):
