@@ -12,5 +12,6 @@ class CommandDispatcher:
 
     async def execute(self, command):
         if (command[0] not in self.commands):
+            print(command)
             return f'command {command[0]} isn\'t found'
         return await self.commands[command[0]].execute(command[1:])

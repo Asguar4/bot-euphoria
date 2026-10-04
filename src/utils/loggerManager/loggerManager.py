@@ -3,8 +3,16 @@ from .logger import Logger
 from .logSink import FileSink
 
 # путь к логам относительно этого файла, а не откуда запустили скрипт
-_BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_LOG_DIR = os.path.join(_BASE_DIR, "logs")
+_LOG_DIR = os.path.join(
+    os.path.dirname(
+        os.path.dirname(
+            os.path.dirname(
+                os.path.dirname(os.path.abspath(__file__))
+            )
+        )
+    ),
+    "logs"
+)
 
 os.makedirs(_LOG_DIR, exist_ok=True)
 
