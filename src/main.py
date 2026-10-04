@@ -5,7 +5,6 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from utils.database import Database
-from utils.scheduler import scheduler
 from utils.loggerManager import LoggerManager
 from utils.inputManager.inputManager import InputManager
 from utils.moduleManager import ModuleManager
@@ -27,16 +26,15 @@ class Bot(commands.Bot):
         self.logger.success('Database connected successfully')
 
     def add_scheduler_task(self, func, day: int, hour: int, minute: int, id: str, args:tuple=()):
-        if self.scheduler.get_job(job_id=id) is not None:
-            self.scheduler.add_job(
-                func,
-                CronTrigger(day_of_week=day, hour=hour, minute=minute),
-                id=id,
-                replace_existing=True,
-                misfire_grace_time=3600,
-                coalesce=True,
-                args=args
-            )
+        self.scheduler.add_job(
+            func,
+            CronTrigger(day_of_week=day, hour=hour, minute=minute),
+            id=id,
+            replace_existing=True,
+            misfire_grace_time=3600,
+            coalesce=True,
+            args=args
+        )
 
     async def on_app_command_error(self, interaction, error):
         if isinstance(error, app_commands.CheckFailure):
