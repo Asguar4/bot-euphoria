@@ -28,7 +28,7 @@ class Database:
                     pool_recycle=cfg['database']['DB_POOL_RECYCLE'],
                     connect_timeout=cfg['database']['DB_CONNECT_TIMEOUT'],
                     echo=cfg['database']['DB_ECHO'].lower() == 'true',
-                    conv=self.converter,
+                    conv=self.converter
                 )
             except Exception as e:
                 print(f'Ошибка подключения к базе данных: {e}')
