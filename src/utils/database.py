@@ -38,19 +38,9 @@ class Database:
     async def close(self):
         if self._pool is not None:
             try:
-                if hasattr(self._pool, '_close_waiter'):
-                    self._pool._close_waiter.cancel()
-
                 self._pool.close()
-
-                try:
-                    await asyncio.wait_for(self._pool.wait_closed(), timeout=10.0)
-                except Exception:
-                    pass
-
+                await self._pool.wait_closed()
                 self._pool = None
-
-                await asyncio.sleep(1)
                 print('Соединение с базой данных закрыто')
             except Exception as e:
                 print(f'Ошибка при закрытии соединения с БД: {e}')
