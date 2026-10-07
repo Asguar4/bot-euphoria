@@ -64,7 +64,6 @@ class Bot(commands.Bot):
             self.logger.success(f'Bot {self.user} started successfully')
 
     async def close(self):
-        self.logger.info('Scheduler stopped')
         await self.database.close()
         self.logger.info('Datebase connection closed')
         await super().close()

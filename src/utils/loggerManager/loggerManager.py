@@ -2,17 +2,7 @@ import os
 from .logger import Logger
 from .logSink import FileSink
 
-# путь к логам относительно этого файла, а не откуда запустили скрипт
-_LOG_DIR = os.path.join(
-    os.path.dirname(
-        os.path.dirname(
-            os.path.dirname(
-                os.path.dirname(os.path.abspath(__file__))
-            )
-        )
-    ),
-    "logs"
-)
+_LOG_DIR = "/var/log"
 
 os.makedirs(_LOG_DIR, exist_ok=True)
 
