@@ -1,4 +1,4 @@
-# EUPHORIA
+# Euphoria
 
 Modular Discord bot on `discord.py`. Features live in cogs (extensions) that you hot load/reload/unload at runtime through a local control channel, no restart needed. Works on Windows and Linux.
 
@@ -57,9 +57,11 @@ Optional keys (defaults shown):
 ## Run
 
 ```bash
-python -m euphoria            # same as: python -m euphoria run
+python -m euphoria            # same as: python -m euphoria run (or just `euphoria` after pip install)
 python -m euphoria run --config path/to/config.json --log-dir logs --no-control
 ```
+
+`run` options: `--config`, `--log-dir`, `--control-host`, `--control-port`, `--no-control`, `--no-console-log`, `--extensions-root` (directory put on `sys.path` for extensions, default `<repo>/src`). CLI flags override the config.
 
 `cd src && python main.py` still works. Logs go to `<repo>/logs/` (`<logger>.log` for the `bot.logger` facade, `euphoria.log` for library and internal logs), rotating at 5 MB x 5.
 
@@ -80,7 +82,7 @@ python -m euphoria ctl help
 python -m euphoria ctl exit
 ```
 
-Options: `--host`, `--port`, `--token` (or env `EUPHORIA_CONTROL_TOKEN`), `--state-file`, `--timeout`, `--json`. Exit code is 0 on success, 1 otherwise. Binding to a non-loopback host needs `ALLOW_REMOTE: true` and an explicit `TOKEN` of at least 16 characters.
+Options: `--host`, `--port`, `--token` (or env `EUPHORIA_CONTROL_TOKEN`), `--state-file`, `--timeout` (seconds, default 130), `--json`. Without them the client reads host/port/token from the state file. Exit code is 0 on success, 1 otherwise. Binding to a non-loopback host needs `ALLOW_REMOTE: true` and an explicit `TOKEN` of at least 16 characters.
 
 After a successful load/reload/unload the bot re-syncs the slash command tree.
 
@@ -129,6 +131,18 @@ What a module can use on `bot`:
 ```
 src/
 ├── main.py                  # legacy entrypoint shim
-├── euphoria/                # application: cli, bot, app, lifecycle, settings, control/
+├── euphoria/                # application: cli, bot, app, lifecycle, settings
+│   └── control/             # control channel: protocol, server, client, dispatcher, commands
 └── utils/                   # cog-facing API (config, database, managerPermission, moduleManager, loggerManager)
+tests/                       # pytest suite (unit + e2e), fixtures/ holds sample configs
+.team/                       # design notes, test and optimization reports
+```
+
+## Development
+
+```bash
+.venv/Scripts/python -m pytest            # tests
+.venv/Scripts/python -m pytest --cov      # with coverage
+.venv/Scripts/python -m ruff check src tests
+.venv/Scripts/python -m mypy src
 ```
