@@ -1,12 +1,11 @@
-from .logSink import LogSink
-from .logSink import FileSink
 from .logger import Logger
 from .loggerManager import LoggerManager
+from .logSink import ConsoleSink, FileSink, LogSink
 
 __all__ = [
-    "LogSink",
     "ConsoleSink",
     "FileSink",
+    "LogSink",
     "Logger",
     "LoggerManager",
 ]

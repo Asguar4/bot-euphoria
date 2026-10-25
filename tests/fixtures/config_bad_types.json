@@ -1,0 +1,4 @@
+{
+  "bot": {"TOKEN": 123},
+  "database": {"DB_HOST": "h", "DB_PORT": "3306", "DB_USER": "u", "DB_PASSWORD": "p", "DB_NAME": "d", "DB_AUTOCOMMIT": "yes"}
+}

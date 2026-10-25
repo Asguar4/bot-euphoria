@@ -34,3 +34,10 @@ Desktop.ini
 *.swp
 *.swo
 *~
+
+.venv/
+.run/
+!tests/fixtures/*.json
+*.egg-info/
+.coverage
+htmlcov/

@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bot-euphoria"
+version = "0.2.0"
+description = "Modular Discord bot with graceful shutdown and a socket control channel"
+requires-python = ">=3.14"
+dependencies = [
+  "discord.py>=2.4",
+  "aiomysql>=0.2",
+  "PyMySQL>=1.1",
+  "APScheduler>=3.10,<4",
+]
+
+[project.optional-dependencies]
+dev = ["ruff>=0.8", "mypy>=1.13", "pytest>=8.3", "pytest-cov>=6.0"]
+
+[project.scripts]
+euphoria = "euphoria.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["euphoria*", "utils*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "PTH", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/utils/**" = ["N"]
+
+[tool.mypy]
+strict = true
+python_version = "3.14"
+
+[[tool.mypy.overrides]]
+module = ["aiomysql.*", "pymysql.*", "apscheduler.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["src"]
+
+[tool.coverage.run]
+omit = ["src/main.py"]

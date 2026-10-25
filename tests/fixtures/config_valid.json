@@ -1,0 +1,7 @@
+{
+  "bot": {"TOKEN": "tok-абв", "EXTENSIONS": ["modules.a"], "SHUTDOWN_TIMEOUT": 5},
+  "database": {"DB_HOST": "h", "DB_PORT": 3306, "DB_USER": "u", "DB_PASSWORD": "s3cret", "DB_NAME": "d",
+               "DB_AUTOCOMMIT": "true", "DB_ECHO": false},
+  "control": {"PORT": 0},
+  "logging": {"LEVEL": "debug", "CONSOLE": false}
+}
